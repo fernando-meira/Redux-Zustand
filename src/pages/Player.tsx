@@ -8,8 +8,6 @@ import { Module } from '../components/Module'
 export function Player() {
   const modules = useAppSelector((state) => state.player.course.modules)
 
-  console.log('😁  modules:', modules)
-
   return (
     <div className="h-screen bg-zinc-950 text-zinc-50 flex justify-center items-center p-10">
       <div className="flex w-[1100px] flex-col gap-6">
