@@ -1,5 +1,5 @@
-import * as Collapsible from '@radix-ui/react-collapsible'
 import { ChevronDown } from 'lucide-react'
+import * as Collapsible from '@radix-ui/react-collapsible'
 
 import { Lesson } from './Lesson'
 import { useAppSelector } from '../store'
