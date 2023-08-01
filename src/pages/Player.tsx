@@ -1,12 +1,20 @@
+import { useEffect } from 'react'
 import { MessageCircle } from 'lucide-react'
 
 import { useAppSelector } from '../store'
 import { Video } from '../components/Video'
 import { Header } from '../components/Header'
 import { Module } from '../components/Module'
+import { useCurrentLesson } from '../store/slices/Player'
 
 export function Player() {
   const modules = useAppSelector((state) => state.player.course.modules)
+
+  const { currentLesson } = useCurrentLesson()
+
+  useEffect(() => {
+    document.title = `Assistindo: ${currentLesson.title}`
+  }, [currentLesson])
 
   return (
     <div className="h-screen bg-zinc-950 text-zinc-50 flex justify-center items-center p-10">
