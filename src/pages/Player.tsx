@@ -1,19 +1,27 @@
 import { useEffect } from 'react'
 import { MessageCircle } from 'lucide-react'
 
-import { useAppSelector } from '../store'
+import { useAppDispatch, useAppSelector } from '../store'
 import { Video } from '../components/Video'
 import { Header } from '../components/Header'
 import { Module } from '../components/Module'
-import { useCurrentLesson } from '../store/slices/Player'
+import { loadCourse, useCurrentLesson } from '../store/slices/Player'
 
 export function Player() {
-  const modules = useAppSelector((state) => state.player.course.modules)
+  const dispatch = useAppDispatch()
+
+  const modules = useAppSelector((state) => state.player.course?.modules)
 
   const { currentLesson } = useCurrentLesson()
 
   useEffect(() => {
-    document.title = `Assistindo: ${currentLesson.title}`
+    dispatch(loadCourse())
+  }, [])
+
+  useEffect(() => {
+    if (currentLesson) {
+      document.title = `Assistindo: ${currentLesson?.title}`
+    }
   }, [currentLesson])
 
   return (
@@ -33,16 +41,17 @@ export function Player() {
           </div>
 
           <aside className="absolute top-0 bottom-0 right-0 w-80 divide-y-2 divide-zinc-900 border-l border-zinc-800 bg-zinc-900 overflow-y-scroll  scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
-            {modules.map((module) => {
-              return (
-                <Module
-                  key={module.id}
-                  title={module.title}
-                  moduleIndex={modules.indexOf(module)}
-                  amountOFLessons={module.lessons.length}
-                />
-              )
-            })}
+            {modules &&
+              modules.map((module) => {
+                return (
+                  <Module
+                    key={module.id}
+                    title={module.title}
+                    moduleIndex={modules.indexOf(module)}
+                    amountOFLessons={module.lessons.length}
+                  />
+                )
+              })}
           </aside>
         </main>
       </div>
