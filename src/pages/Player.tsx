@@ -6,11 +6,13 @@ import { Video } from '../components/Video'
 import { Header } from '../components/Header'
 import { Module } from '../components/Module'
 import { loadCourse, useCurrentLesson } from '../store/slices/Player'
+import { ModuleAnimation } from '../components/ModuleAnimation'
 
 export function Player() {
   const dispatch = useAppDispatch()
 
   const modules = useAppSelector((state) => state.player.course?.modules)
+  const isCourseLoading = useAppSelector((state) => state.player.isLoading)
 
   const { currentLesson } = useCurrentLesson()
 
@@ -41,7 +43,10 @@ export function Player() {
           </div>
 
           <aside className="absolute top-0 bottom-0 right-0 w-80 divide-y-2 divide-zinc-900 border-l border-zinc-800 bg-zinc-900 overflow-y-scroll  scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
-            {modules &&
+            {isCourseLoading ? (
+              <ModuleAnimation />
+            ) : (
+              modules &&
               modules.map((module) => {
                 return (
                   <Module
@@ -51,7 +56,8 @@ export function Player() {
                     amountOFLessons={module.lessons.length}
                   />
                 )
-              })}
+              })
+            )}
           </aside>
         </main>
       </div>

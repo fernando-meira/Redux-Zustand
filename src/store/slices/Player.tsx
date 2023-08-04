@@ -31,9 +31,9 @@ export interface PlayerState {
 
 const initialState: PlayerState = {
   course: null,
+  isLoading: true,
   currentLessonIndex: 0,
   currentModuleIndex: 0,
-  isLoading: true,
 }
 
 const PlayerSlice = createSlice({
@@ -69,6 +69,7 @@ const PlayerSlice = createSlice({
     }),
       builder.addCase(loadCourse.rejected, (state) => {
         state.course = null
+        state.isLoading = false
       }),
       builder.addCase(loadCourse.pending, (state) => {
         state.isLoading = true
