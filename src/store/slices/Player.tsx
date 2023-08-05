@@ -16,12 +16,6 @@ interface Course {
   }>
 }
 
-export const loadCourse = createAsyncThunk('player/load', async () => {
-  const response = await api.get('/courses/1')
-
-  return response.data
-})
-
 export interface PlayerState {
   course: Course | null
   currentLessonIndex: number
@@ -35,6 +29,12 @@ const initialState: PlayerState = {
   currentLessonIndex: 0,
   currentModuleIndex: 0,
 }
+
+export const loadCourse = createAsyncThunk('player/load', async () => {
+  const response = await api.get('/courses/1')
+
+  return response.data
+})
 
 const PlayerSlice = createSlice({
   name: 'player',
