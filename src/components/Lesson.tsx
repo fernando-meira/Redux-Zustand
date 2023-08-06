@@ -1,5 +1,4 @@
-import { Loader, PlayCircle, Video } from 'lucide-react'
-import { useAppSelector } from '../store'
+import { PlayCircle, Video } from 'lucide-react'
 
 interface LessonProps {
   title: string

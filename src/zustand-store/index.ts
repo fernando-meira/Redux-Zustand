@@ -17,11 +17,13 @@ interface Course {
 
 export interface PlayerState {
   next: () => void
+  load: () => void
+  play: (moduleAndLessonIndex: [number, number]) => void
+
   isLoading: boolean
   course: Course | null
   currentLessonIndex: number
   currentModuleIndex: number
-  play: (moduleAndLessonIndex: [number, number]) => void
 }
 
 export const useStore = create<PlayerState>((set, get) => {
@@ -77,3 +79,17 @@ export const useStore = create<PlayerState>((set, get) => {
     },
   }
 })
+
+export const useCurrentLesson = () => {
+  return useStore((state) => {
+    const { currentLessonIndex, currentModuleIndex } = state
+
+    const currentModule = state.course?.modules[currentModuleIndex]
+    const currentLesson = currentModule?.lessons[currentLessonIndex]
+
+    return {
+      currentModule,
+      currentLesson,
+    }
+  })
+}

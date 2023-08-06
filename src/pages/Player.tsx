@@ -4,13 +4,22 @@ import { MessageCircle } from 'lucide-react'
 import { Video } from '../components/Video'
 import { Header } from '../components/Header'
 import { Module } from '../components/Module'
+import { useCurrentLesson, useStore } from '../zustand-store'
 import { ModuleAnimation } from '../components/ModuleAnimation'
 
 export function Player() {
+  const { course, load, isLoading } = useStore((state) => {
+    return {
+      load: state.load,
+      course: state.course,
+      isLoading: state.isLoading,
+    }
+  })
+
   const { currentLesson } = useCurrentLesson()
 
   useEffect(() => {
-    dispatch(loadCourse())
+    load()
   }, [])
 
   useEffect(() => {
@@ -36,16 +45,16 @@ export function Player() {
           </div>
 
           <aside className="absolute top-0 bottom-0 right-0 w-80 divide-y-2 divide-zinc-900 border-l border-zinc-800 bg-zinc-900 overflow-y-scroll  scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
-            {isCourseLoading ? (
+            {isLoading ? (
               <ModuleAnimation />
             ) : (
-              modules &&
-              modules.map((module) => {
+              course?.modules &&
+              course.modules.map((module) => {
                 return (
                   <Module
                     key={module.id}
                     title={module.title}
-                    moduleIndex={modules.indexOf(module)}
+                    moduleIndex={course.modules.indexOf(module)}
                     amountOFLessons={module.lessons.length}
                   />
                 )
